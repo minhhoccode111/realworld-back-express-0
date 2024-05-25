@@ -1,0 +1,42 @@
+# return index.html
+GET {{url}}/
+
+# return "successful"
+# manually type because the {{url}} === http://localhost:3000/api
+GET http://localhost:3000/test
+
+# sign up
+POST {{url}}/users
+Content-Type: application/json
+{
+  "_comment": "this is syntax of http json",
+  "user": {
+    "username":"khong dieu kien",
+    "email":"asd@gmail.com",
+    "password":"Bruh0!0!"
+  }
+}
+
+# sign in
+POST {{url}}/users/login
+Content-Type: application/json
+{
+  "username": "asd10",
+  "password": "asd"
+}
+
+
+# update user, need auth
+PUT {{url}}/user
+Content-Type: application/json
+{
+  "": "",
+  "": "",
+  "": "",
+  "": ""
+}
+
+
+# get current user, need auth
+GET {{url}}/user
+

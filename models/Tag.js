@@ -1,18 +1,21 @@
-const mongoose = require('mongoose');
-const uniqueValidator = require('mongoose-unique-validator');
+const mongoose = require("mongoose");
+const uniqueValidator = require("mongoose-unique-validator");
 
 const tagSchema = new mongoose.Schema({
-    tagName: {
-        type: String,
-        required: true,
-        unique: true
+  tagName: {
+    type: String,
+    required: true,
+    unique: true,
+  },
+  articles: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Article",
     },
-    articles: [{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Article'
-    }]
-})
+  ],
+});
 
 tagSchema.plugin(uniqueValidator);
 
-module.exports = mongoose.model('Tag', tagSchema);
+module.exports = mongoose.model("Tag", tagSchema);
+
