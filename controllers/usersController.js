@@ -29,6 +29,7 @@ const registerUser = asyncHandler(async (req, res) => {
   };
 
   // NOTE: what this returns when an uniqueness error occurs
+  // why the example code use this combine with createdUser existed conditional
   // const createdUser = await User.create(userObject)
   const createdUser = new User(userObject);
 

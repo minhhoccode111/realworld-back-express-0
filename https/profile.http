@@ -1,0 +1,9 @@
+# get a profile
+GET {{url}}/profiles/asd1
+Authorization: {{token0}}
+
+POST {{url}}/profiles/asd1/follow
+Authorization: {{token0}}
+ 
+DELETE {{url}}/profiles/asd1/follow
+Authorization: {{token0}}

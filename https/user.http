@@ -1,5 +1,5 @@
 # return index.html
-GET {{url}}/
+GET {{url}}/index
 
 # return "successful"
 # manually type because the {{url}} === http://localhost:3000/api
@@ -29,12 +29,16 @@ Content-Type: application/json
 
 # update user, need auth
 PUT {{url}}/user
+Authorization: {{token0}}
 Content-Type: application/json
 {
-  "": "",
-  "": "",
-  "": "",
-  "": ""
+  "user": {
+    "email": "asd3@gmail.com", 
+    "username": "asd3", 
+    "password": "Bruh0!0!0!", 
+    "image": "https://google.com",
+    "bio": "I write code (sometimes)"
+  }
 }
 
 # get current user, need auth
