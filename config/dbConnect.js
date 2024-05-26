@@ -7,7 +7,7 @@ const connectDB = async () => {
     mongoose.set("strictQuery", false);
 
     // connect using this link in dev environment
-    await mongoose.connect(process.env.DATABASE_URI);
+    mongoose.connect(process.env.DATABASE_URI);
   } catch (err) {
     console.log(err);
   }

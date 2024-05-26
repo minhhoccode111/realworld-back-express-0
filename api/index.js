@@ -57,12 +57,13 @@ app.use("/api/articles", require("../routes/commentRoutes"));
 // mongoose event listener
 mongoose.connection.once("open", () => {
   console.log(`about to connect database string: `, URI);
-  console.log("Connected to MongoDB");
 
   // the app only listen when database connection is formed
   app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
   });
+
+  console.log("Connected to MongoDB");
 });
 
 // mongoose event listener

@@ -11,8 +11,8 @@ Content-Type: application/json
 {
   "_comment": "this is syntax of http json",
   "user": {
-    "username":"khong dieu kien",
-    "email":"asd@gmail.com",
+    "username":"asd2",
+    "email":"asd2@gmail.com",
     "password":"Bruh0!0!"
   }
 }
@@ -21,10 +21,11 @@ Content-Type: application/json
 POST {{url}}/users/login
 Content-Type: application/json
 {
-  "username": "asd10",
-  "password": "asd"
+  "user": {
+    "email":"asd2@gmail.com",
+    "password":"Bruh0!0!"
+  }
 }
-
 
 # update user, need auth
 PUT {{url}}/user
@@ -36,7 +37,6 @@ Content-Type: application/json
   "": ""
 }
 
-
 # get current user, need auth
 GET {{url}}/user
-
+Authorization: {{token0}}

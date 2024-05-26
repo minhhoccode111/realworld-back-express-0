@@ -2,8 +2,6 @@ const mongoose = require("mongoose");
 const uniqueValidator = require("mongoose-unique-validator");
 const jwt = require("jsonwebtoken");
 
-const ACCESS_TOKEN_SECRET = process.env.ACCESS_TOKEN_SECRET;
-
 const userSchema = new mongoose.Schema(
   {
     username: {
@@ -51,25 +49,33 @@ const userSchema = new mongoose.Schema(
       },
     ],
   },
+
   {
     timestamps: true,
   },
 );
 
-userSchema.plugin(uniqueValidator);
+// to handle unique field so that Schema.create() don't throw an Error
+// when a unique field is conflicted
+userSchema.plugin(uniqueValidator, {
+  message: "Error, expected {PATH} to be unique.",
+});
 
 // @desc generate access token for a user
 // @required valid email and password
 userSchema.methods.generateAccessToken = function () {
   const accessToken = jwt.sign(
+    // payload 1 level deeper than I normal do
     {
       user: {
+        // payload.user contains 3 fields instead of 1 like I normal do
+        // which is really secure and probably impossible to fake
         id: this._id,
         email: this.email,
         password: this.password,
       },
     },
-    ACCESS_TOKEN_SECRET,
+    process.env.ACCESS_TOKEN_SECRET,
     { expiresIn: "1d" },
   );
   return accessToken;
@@ -81,6 +87,7 @@ userSchema.methods.toUserResponse = function () {
     email: this.email,
     bio: this.bio,
     image: this.image,
+    // schema method to generate 1 day access token
     token: this.generateAccessToken(),
   };
 };
