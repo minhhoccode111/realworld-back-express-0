@@ -51,12 +51,15 @@ const articleSchema = new mongoose.Schema(
     ],
   },
   {
-    timestamps: true,
+    timestamps: true, // automatic add createdAt and updatedAt
   },
 );
 
+// unique fields will be handled nicely
 articleSchema.plugin(uniqueValidator);
 
+// @desc create a slugified version of the document's title field
+// and assign to slug field before a document is saved
 articleSchema.pre("save", function (next) {
   this.slug = slugify(this.title, { lower: true, replacement: "-" });
   next();
@@ -72,19 +75,29 @@ articleSchema.methods.updateFavoriteCount = async function () {
   return this.save();
 };
 
-// user is the logged-in user
+// @desc user is the logged-in user
+// NOTE: really big brain
 articleSchema.methods.toArticleResponse = async function (user) {
+  // first retrieve the author of the article
   const authorObj = await User.findById(this.author).exec();
   return {
+    // extract some value from the document
     slug: this.slug,
-    title: this.title,
-    description: this.description,
     body: this.body,
+    title: this.title,
+    tagList: this.tagList,
+    description: this.description,
+    favoritesCount: this.favouritesCount,
+
+    // these 2 existed because of timestamps: true
     createdAt: this.createdAt,
     updatedAt: this.updatedAt,
-    tagList: this.tagList,
+
+    // identify if current user marked this article as favourite
     favorited: user ? user.isFavourite(this._id) : false,
-    favoritesCount: this.favouritesCount,
+
+    // the call the to profile method of author object to exclude token
+    // and include connection between current user w/ article's author
     author: authorObj.toProfileJSON(user),
   };
 };

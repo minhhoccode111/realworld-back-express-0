@@ -33,21 +33,22 @@ const registerUser = asyncHandler(async (req, res) => {
   // const createdUser = await User.create(userObject)
   const createdUser = new User(userObject);
 
+  // mongoose-unique-validator help us to do this
   createdUser.save(function (err) {
     // error while create new user
     if (err) {
-      res.status(422).json({
+      return res.status(422).json({
         errors: {
           body: "Unable to register a user",
         },
       });
-    } else {
-      // successfully create user
-      res.status(201).json({
-        // response with needed information
-        user: createdUser.toUserResponse(),
-      });
     }
+
+    // successfully create user
+    res.status(201).json({
+      // response with needed information
+      user: createdUser.toUserResponse(),
+    });
   });
 });
 
@@ -162,12 +163,20 @@ const updateUser = asyncHandler(async (req, res) => {
     target.bio = user.bio;
   }
 
-  // then save again
-  await target.save();
+  // then save again, check for uniqueness
+  target.save(function (err) {
+    if (err) {
+      return res.status(422).json({
+        errors: {
+          body: "Unable to update user",
+        },
+      });
+    }
 
-  return res.status(200).json({
-    // response with needed information
-    user: target.toUserResponse(),
+    res.status(200).json({
+      // response with needed information
+      user: target.toUserResponse(),
+    });
   });
 });
 

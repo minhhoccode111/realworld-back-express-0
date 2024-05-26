@@ -4,18 +4,21 @@ const verifyJWT = require("../middleware/verifyJWT");
 const verifyJWTOptional = require("../middleware/verifyJWTOptional");
 const commentController = require("../controllers/commentsController");
 
+// current user comment on an article
 router.post(
   "/:slug/comments",
   verifyJWT,
   commentController.addCommentsToArticle,
 );
 
+// current user get all comment of an article
 router.get(
   "/:slug/comments",
   verifyJWTOptional,
   commentController.getCommentsFromArticle,
 );
 
+// current user delete a comment in an article
 router.delete(
   "/:slug/comments/:id",
   verifyJWT,

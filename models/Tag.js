@@ -7,6 +7,7 @@ const tagSchema = new mongoose.Schema({
     required: true,
     unique: true,
   },
+
   articles: [
     {
       type: mongoose.Schema.Types.ObjectId,
@@ -18,4 +19,3 @@ const tagSchema = new mongoose.Schema({
 tagSchema.plugin(uniqueValidator);
 
 module.exports = mongoose.model("Tag", tagSchema);
-

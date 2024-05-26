@@ -49,14 +49,13 @@ const userSchema = new mongoose.Schema(
       },
     ],
   },
-
   {
-    timestamps: true,
+    timestamps: true, // automatic add createdAt and updatedAt
   },
 );
 
-// to handle unique field so that Schema.create() don't throw an Error
-// when a unique field is conflicted
+// @desc to handle unique field so that
+// Schema.create() don't throw an Error when a unique field is conflicted
 userSchema.plugin(uniqueValidator, {
   message: "Error, expected {PATH} to be unique.",
 });
@@ -81,6 +80,8 @@ userSchema.methods.generateAccessToken = function () {
   return accessToken;
 };
 
+// @desc get a user information
+// NOTE: really big brain
 userSchema.methods.toUserResponse = function () {
   return {
     username: this.username,
@@ -92,7 +93,8 @@ userSchema.methods.toUserResponse = function () {
   };
 };
 
-// this is used when current user get someone else profile
+// @desc current user get someone else's profile information
+// NOTE: really big brain
 userSchema.methods.toProfileJSON = function (user) {
   return {
     // include some info
@@ -108,7 +110,8 @@ userSchema.methods.toProfileJSON = function (user) {
   };
 };
 
-// identify following status between current logged in user with profile.id
+// @desc identify following status between current user with profile user
+// @required a user's id
 userSchema.methods.isFollowing = function (id) {
   const idStr = id.toString();
   // loop through every id of user in current user's following list
@@ -121,7 +124,8 @@ userSchema.methods.isFollowing = function (id) {
   return false;
 };
 
-// add profile user's id to current user's followingUsers array
+// @desc add profile user's id to current user's followingUsers array
+// @required a user's id
 userSchema.methods.follow = function (id) {
   // only push to it if not existed
   if (this.followingUsers.indexOf(id) === -1) {
@@ -130,7 +134,8 @@ userSchema.methods.follow = function (id) {
   return this.save();
 };
 
-// remove profile user's id from current user's followingUsers array
+// @desc remove profile user's id from current user's followingUsers array
+// @required a user's id
 userSchema.methods.unfollow = function (id) {
   // only remove from it if not existed
   if (this.followingUsers.indexOf(id) !== -1) {
@@ -140,7 +145,8 @@ userSchema.methods.unfollow = function (id) {
   return this.save();
 };
 
-// identify whether current user mark article's id as favourite
+// @desc identify whether current user mark article's id as favourite
+// @required an article's id
 userSchema.methods.isFavourite = function (id) {
   const idStr = id.toString();
   // loop through every id of article in current user's favourite list
@@ -153,7 +159,8 @@ userSchema.methods.isFavourite = function (id) {
   return false;
 };
 
-// add article's id to current user's favourite array
+// @desc add article's id to current user's favourite array
+// @required an article's id
 userSchema.methods.favorite = function (id) {
   if (this.favouriteArticles.indexOf(id) === -1) {
     // only push to it if not existed
@@ -170,6 +177,8 @@ userSchema.methods.favorite = function (id) {
   return this.save();
 };
 
+// @desc remove article's id from current user's favourite array
+// @required an article's id
 userSchema.methods.unfavorite = function (id) {
   if (this.favouriteArticles.indexOf(id) !== -1) {
     // only remove if existed

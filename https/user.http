@@ -11,8 +11,8 @@ Content-Type: application/json
 {
   "_comment": "this is syntax of http json",
   "user": {
-    "username":"asd2",
-    "email":"asd2@gmail.com",
+    "username":"asd3",
+    "email":"asd3@gmail.com",
     "password":"Bruh0!0!"
   }
 }
@@ -22,7 +22,7 @@ POST {{url}}/users/login
 Content-Type: application/json
 {
   "user": {
-    "email":"asd2@gmail.com",
+    "email":"asd4@gmail.com",
     "password":"Bruh0!0!"
   }
 }
@@ -33,9 +33,9 @@ Authorization: {{token0}}
 Content-Type: application/json
 {
   "user": {
-    "email": "asd3@gmail.com", 
-    "username": "asd3", 
-    "password": "Bruh0!0!0!", 
+    "email": "asd4@gmail.com", 
+    "username": "asd4", 
+    "password": "Bruh0!0!", 
     "image": "https://google.com",
     "bio": "I write code (sometimes)"
   }

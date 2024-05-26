@@ -4,12 +4,12 @@ const profileController = require("../controllers/profilesController");
 const verifyJWT = require("../middleware/verifyJWT");
 const verifyJWTOptional = require("../middleware/verifyJWTOptional");
 
-// Get profile - authentication optional
+// current user get profile - authentication optional
 router.get("/:username", verifyJWTOptional, profileController.getProfile);
 
-// Follow a user
+// current user follow a user
 router.post("/:username/follow", verifyJWT, profileController.followUser);
 
-// unfollow a user
+// current user unfollow a user
 router.delete("/:username/follow", verifyJWT, profileController.unFollowUser);
 module.exports = router;

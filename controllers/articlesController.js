@@ -2,11 +2,19 @@ const Article = require("../models/Article");
 const User = require("../models/User");
 const asyncHandler = require("express-async-handler");
 
+// @desc current user create a article
+// @route POST /api/articles
+// @access Private
+// @required fields {title, description, body}
+// @return Article
 const createArticle = asyncHandler(async (req, res) => {
+  // extract current user's id marked on the request object
   const id = req.userId;
 
+  // manually find current user in db
   const author = await User.findById(id).exec();
 
+  // extract data from article
   const { title, description, body, tagList } = req.body.article;
 
   // confirm data
@@ -14,21 +22,40 @@ const createArticle = asyncHandler(async (req, res) => {
     res.status(400).json({ message: "All fields are required" });
   }
 
-  const article = await Article.create({ title, description, body });
+  // create a new article with input data
+  const article = new Article({ title, description, body });
 
+  // mark current user as article's author
   article.author = id;
 
+  // if tagList is valid, save to article
   if (Array.isArray(tagList) && tagList.length > 0) {
     article.tagList = tagList;
   }
 
-  await article.save();
+  // then save created article
+  article.save(async function (err) {
+    if (err) {
+      return res.status(422).json({
+        errors: {
+          message: "Unable to create that article",
+        },
+      });
+    }
 
-  return await res.status(200).json({
-    article: await article.toArticleResponse(author),
+    res.status(200).json({
+      // await to retrieve db for article's author
+      // schema method to response only information that we want
+      article: await article.toArticleResponse(author),
+    });
   });
 });
 
+// @desc current user create a article
+// @route POST /api/articles
+// @access Private
+// @required fields {title, description, body}
+// @return Article
 const deleteArticle = asyncHandler(async (req, res) => {
   const id = req.userId;
 
@@ -66,6 +93,11 @@ const deleteArticle = asyncHandler(async (req, res) => {
   }
 });
 
+// @desc current user create a article
+// @route POST /api/articles
+// @access Private
+// @required fields {title, description, body}
+// @return Article
 const favoriteArticle = asyncHandler(async (req, res) => {
   const id = req.userId;
 
@@ -97,6 +129,11 @@ const favoriteArticle = asyncHandler(async (req, res) => {
   });
 });
 
+// @desc current user create a article
+// @route POST /api/articles
+// @access Private
+// @required fields {title, description, body}
+// @return Article
 const unfavoriteArticle = asyncHandler(async (req, res) => {
   const id = req.userId;
 
@@ -127,6 +164,11 @@ const unfavoriteArticle = asyncHandler(async (req, res) => {
   });
 });
 
+// @desc current user create a article
+// @route POST /api/articles
+// @access Private
+// @required fields {title, description, body}
+// @return Article
 const getArticleWithSlug = asyncHandler(async (req, res) => {
   const { slug } = req.params;
 
@@ -143,6 +185,11 @@ const getArticleWithSlug = asyncHandler(async (req, res) => {
   });
 });
 
+// @desc current user create a article
+// @route POST /api/articles
+// @access Private
+// @required fields {title, description, body}
+// @return Article
 const updateArticle = asyncHandler(async (req, res) => {
   const userId = req.userId;
 
@@ -159,22 +206,40 @@ const updateArticle = asyncHandler(async (req, res) => {
   if (article.title) {
     target.title = article.title;
   }
+
   if (article.description) {
     target.description = article.description;
   }
+
   if (article.body) {
     target.body = article.body;
   }
+
   if (article.tagList) {
     target.tagList = article.tagList;
   }
 
-  await target.save();
-  return res.status(200).json({
-    article: await target.toArticleResponse(loginUser),
+  target.save(async function (err) {
+    if (err) {
+      return res.status(422).json({
+        errors: {
+          message: "Unable to update that article",
+        },
+      });
+    }
+
+    // async/await because we have to retrive db to get the article's author
+    return res.status(200).json({
+      article: await target.toArticleResponse(loginUser),
+    });
   });
 });
 
+// @desc current user create a article
+// @route POST /api/articles
+// @access Private
+// @required fields {title, description, body}
+// @return Article
 const feedArticles = asyncHandler(async (req, res) => {
   let limit = 20;
   let offset = 0;
@@ -217,10 +282,17 @@ const feedArticles = asyncHandler(async (req, res) => {
   });
 });
 
+// @desc current user create a article
+// @route POST /api/articles
+// @access Private
+// @required fields {title, description, body}
+// @return Article
 const listArticles = asyncHandler(async (req, res) => {
+  // default params' values
   let limit = 20;
   let offset = 0;
   let query = {};
+
   if (req.query.limit) {
     limit = req.query.limit;
   }

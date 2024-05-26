@@ -1,0 +1,23 @@
+# createArticle
+POST {{url}}/articles
+Authorization: {{token0}}
+Content-Type: application/json
+{
+  "article": {
+    "title": "khong dieu kien 7", 
+    "description": "tai vi sao, cam xuc kia quay ve", 
+    "body": "la tai ai, da khien anh nhu vay", 
+    "tagList": ["what", "the", "fuck"]
+  }
+}
+
+
+
+
+# deleteArticle
+# favoriteArticle
+# unfavoriteArticle
+# getArticleWithSlug
+# updateArticle
+# feedArticles
+# listArticles
