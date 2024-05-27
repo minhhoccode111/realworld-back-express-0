@@ -4,10 +4,13 @@ Authorization: {{token1}}
 Content-Type: application/json
 {
   "article": {
-    "title": "asd1 article 2 title", 
+    "_title": "asd1 article 2 title", 
+    "title": "asd1 0", 
+    "_description": "asd1 article 2 description", 
     "description": "asd1 article 2 description", 
+    "_body": "asd1 article 2 body", 
     "body": "asd1 article 2 body", 
-    "tagList": ["tag", "list", "2", "asd1"]
+    "tagList": ["ngu"]
   }
 }
 
@@ -16,8 +19,8 @@ DELETE {{url}}/articles/asd0-article-0-title
 Authorization: {{token0}}
 
 # favoriteArticle
-POST {{url}}/articles/asd0-article-0-title/favorite
-Authorization: {{token1}}
+POST {{url}}/articles/asd1-article-0-title/favorite
+Authorization: {{token0}}
 
 # unfavoriteArticle
 DELETE {{url}}/articles/asd0-article-0-title/favorite
@@ -40,7 +43,7 @@ Content-Type: application/json
   }
 }
 
-# feedArticles
+# feedArticles all
 GET {{url}}/articles/feed
 Authorization: {{token0}}
 
@@ -48,10 +51,10 @@ Authorization: {{token0}}
 GET {{url}}/articles/feed?limit=1&offset=0
 Authorization: {{token0}}
 
-# listArticles
+# listArticles all
 GET {{url}}/articles
 Authorization: {{token0}}
 
 # listArticles with queries
-GET {{url}}/articles?favorited=asd1
-Authorization: {{token0}}
+GET {{url}}/articles?favorited=asd0
+Authorization: {{token1}}

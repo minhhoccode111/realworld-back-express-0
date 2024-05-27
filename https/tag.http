@@ -1,4 +1,4 @@
 # getTags
 GET {{url}}/tags
-Authorization: {{token0}}
+Authorization: {{token1}}
 

@@ -7,15 +7,18 @@ const commentSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+
     author: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
     },
+
     article: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Article",
     },
   },
+
   {
     timestamps: true,
   },
@@ -23,6 +26,7 @@ const commentSchema = new mongoose.Schema(
 
 commentSchema.methods.toCommentResponse = async function (user) {
   const authorObj = await User.findById(this.author).exec();
+
   return {
     id: this._id,
     body: this.body,

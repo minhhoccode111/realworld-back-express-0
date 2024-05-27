@@ -107,17 +107,21 @@ articleSchema.methods.toArticleResponse = async function (user) {
 
 articleSchema.methods.addComment = function (commentId) {
   if (this.comments.indexOf(commentId) === -1) {
+    // only add the comment to article's comments array if not existed yet
     this.comments.push(commentId);
   }
 
+  // this will return a promise
   return this.save();
 };
 
 articleSchema.methods.removeComment = function (commentId) {
   if (this.comments.indexOf(commentId) !== -1) {
+    // remove specifically to remove item from array in mongodb
     this.comments.remove(commentId);
   }
 
+  // this will return a promise
   return this.save();
 };
 

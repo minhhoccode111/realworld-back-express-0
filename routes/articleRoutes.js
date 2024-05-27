@@ -9,7 +9,8 @@ const articleController = require("../controllers/articlesController");
 // get all articles of current user's following
 router.get("/feed", verifyJWT, articleController.feedArticles);
 
-// get all articles of current user
+// get all articles of current user, auth optional to display connection with
+// the article and connection with the article's author
 router.get("/", verifyJWTOptional, articleController.listArticles);
 
 // get a specific article using its slug, no auth required

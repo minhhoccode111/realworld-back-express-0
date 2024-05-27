@@ -168,7 +168,7 @@ userSchema.methods.favorite = function (id) {
     this.favoriteArticles.push(id);
   }
 
-  // NOTE: remember keep article count in sync
+  // NOTE: no need to keep favoritesCount in sync because every time
   // const article = await Article.findById(id).exec();
   //
   // article.favoritesCount += 1;
@@ -186,7 +186,6 @@ userSchema.methods.unfavorite = function (id) {
     this.favoriteArticles.remove(id);
   }
 
-  // NOTE: remember keep article count in sync
   // const article = await Article.findById(id).exec();
   //
   // article.favoritesCount -= 1;

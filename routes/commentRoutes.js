@@ -11,7 +11,7 @@ router.post(
   commentController.addCommentsToArticle,
 );
 
-// current user get all comment of an article
+// current user get all comment of an article, auth optional
 router.get(
   "/:slug/comments",
   verifyJWTOptional,

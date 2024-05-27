@@ -23,7 +23,8 @@ For more information on how to this works with other frontends/backends, head ov
 # Design Choices and Tradeoffs
 
 - Only one `access_token_secret` is used for all the accounts registration and login. Drawback: data can be forged if this secret is leaked
-- Included array structures, e.g. list of comments in the article model and favorited articles in the user model. Drawback: not good for scalability
+- Included array structures, e.g. list of comments in the article model, favorited articles in the user model, following users in the user model, tags in article model. Drawback: not good for scalability
+- Count favorite times of an article by going through every user and count each time that article appear in `favoriteArticles` array of each user instead of maintaining a `favoritesCount` variable in each article document. Drawback: not good for scalability
 - Usernames are case-sensitive
 
 # Things I find that need to be updated
@@ -35,3 +36,7 @@ For more information on how to this works with other frontends/backends, head ov
 - Add `.exec()` to the `articleCount`
 - Change `.count()` in `GET /articles/feed` and `GET /articles` to `.countDocuments()` for better
 - Add handle Schema conflict `slug` by changing `await Schema.create()` to `new Schema()` and `.save((err)=>{/* handlerconflict slug */})`
+- Remove not use Tag model
+- Add check for valid MongoDB id with `isValidObjectId` to prevent `findById` db throw if `id` not valid and to return soon if not valid id
+- Add check for comment existence in `DELETE /articles/:slug/comments/:id`
+- Use `Promise.all()` in the `DELETE /articles/:slug/comments/:id` to improve performant

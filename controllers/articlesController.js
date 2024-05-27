@@ -378,7 +378,8 @@ const listArticles = asyncHandler(async (req, res) => {
     }
   }
 
-  // if favorited is specified in the query parameters
+  // favorited is a username param to help get all articles
+  // which that user mark as favorite
   if (req.query.favorited) {
     // NOTE: big brain
     // Find the user who favorited articles
@@ -388,12 +389,15 @@ const listArticles = asyncHandler(async (req, res) => {
 
     // If the user exists, add their favorite articles to the query
     if (favoriter) {
+      // NOTE: big brain
+      // adds their favorite articles to the query if the user exists
+      // e.g. query will be { _id: { $in: ['articleId1', 'articleId2', 'articleId3']} }
       query._id = { $in: favoriter.favoriteArticles };
     }
   }
 
   // find articles matching the query with limit and offset
-  const [filteredArticles, articlesCount] = await Promise.all(
+  const [filteredArticles, articlesCount] = await Promise.all([
     Article.find(query)
       .limit(Number(limit)) // Limit the number of articles
       .skip(Number(offset)) // Skip the specified number of articles
@@ -403,7 +407,7 @@ const listArticles = asyncHandler(async (req, res) => {
 
     // count the total number of articles matching the query
     Article.countDocuments(query).exec(),
-  );
+  ]);
 
   // check if current user is logged in
   if (req.loggedin) {
