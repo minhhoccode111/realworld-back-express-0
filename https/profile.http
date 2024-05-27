@@ -2,8 +2,10 @@
 GET {{url}}/profiles/asd1
 Authorization: {{token0}}
 
+# follow a profile
 POST {{url}}/profiles/asd1/follow
 Authorization: {{token0}}
  
+# unfollow a profile
 DELETE {{url}}/profiles/asd1/follow
 Authorization: {{token0}}

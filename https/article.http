@@ -1,23 +1,57 @@
 # createArticle
 POST {{url}}/articles
+Authorization: {{token1}}
+Content-Type: application/json
+{
+  "article": {
+    "title": "asd1 article 2 title", 
+    "description": "asd1 article 2 description", 
+    "body": "asd1 article 2 body", 
+    "tagList": ["tag", "list", "2", "asd1"]
+  }
+}
+
+# deleteArticle
+DELETE {{url}}/articles/asd0-article-0-title
+Authorization: {{token0}}
+
+# favoriteArticle
+POST {{url}}/articles/asd0-article-0-title/favorite
+Authorization: {{token1}}
+
+# unfavoriteArticle
+DELETE {{url}}/articles/asd0-article-0-title/favorite
+Authorization: {{token1}}
+
+# getArticleWithSlug
+GET {{url}}/articles/asd0-article-0-title
+Authorization: {{token1}}
+
+# updateArticle
+PUT {{url}}/articles/asd0-article-0-title
 Authorization: {{token0}}
 Content-Type: application/json
 {
   "article": {
-    "title": "khong dieu kien 7", 
-    "description": "tai vi sao, cam xuc kia quay ve", 
-    "body": "la tai ai, da khien anh nhu vay", 
-    "tagList": ["what", "the", "fuck"]
+    "title": "asd0 article 0 title", 
+    "description": "asd0 article 0 description", 
+    "body": "asd0 article 0 body", 
+    "tagList": ["tag", "list", "0", "asd0"]
   }
 }
 
-
-
-
-# deleteArticle
-# favoriteArticle
-# unfavoriteArticle
-# getArticleWithSlug
-# updateArticle
 # feedArticles
+GET {{url}}/articles/feed
+Authorization: {{token0}}
+
+# feedArticles with queries
+GET {{url}}/articles/feed?limit=1&offset=0
+Authorization: {{token0}}
+
 # listArticles
+GET {{url}}/articles
+Authorization: {{token0}}
+
+# listArticles with queries
+GET {{url}}/articles?favorited=asd1
+Authorization: {{token0}}

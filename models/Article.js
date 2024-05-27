@@ -38,7 +38,7 @@ const articleSchema = new mongoose.Schema(
       ref: "User",
     },
 
-    favouritesCount: {
+    favoritesCount: {
       type: Number,
       default: 0,
     },
@@ -65,13 +65,16 @@ articleSchema.pre("save", function (next) {
   next();
 });
 
+// @desc count article's total favorites
 articleSchema.methods.updateFavoriteCount = async function () {
+  // count in every users
   const favoriteCount = await User.count({
-    favouriteArticles: { $in: [this._id] },
+    // that have this article's id in their favoriteArticles array
+    favoriteArticles: { $in: [this._id] },
   });
 
-  this.favouritesCount = favoriteCount;
-
+  // then update the number and save
+  this.favoritesCount = favoriteCount;
   return this.save();
 };
 
@@ -87,14 +90,14 @@ articleSchema.methods.toArticleResponse = async function (user) {
     title: this.title,
     tagList: this.tagList,
     description: this.description,
-    favoritesCount: this.favouritesCount,
+    favoritesCount: this.favoritesCount,
 
     // these 2 existed because of timestamps: true
     createdAt: this.createdAt,
     updatedAt: this.updatedAt,
 
-    // identify if current user marked this article as favourite
-    favorited: user ? user.isFavourite(this._id) : false,
+    // identify if current user marked this article as favorite
+    favorited: user ? user.isFavorite(this._id) : false,
 
     // the call the to profile method of author object to exclude token
     // and include connection between current user w/ article's author

@@ -12,7 +12,7 @@ router.get("/feed", verifyJWT, articleController.feedArticles);
 // get all articles of current user
 router.get("/", verifyJWTOptional, articleController.listArticles);
 
-// get a specific article using its slug
+// get a specific article using its slug, no auth required
 router.get("/:slug", articleController.getArticleWithSlug);
 
 // current user create an article

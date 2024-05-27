@@ -35,7 +35,7 @@ const userSchema = new mongoose.Schema(
       default: "https://static.productionready.io/images/smiley-cyrus.jpg",
     },
 
-    favouriteArticles: [
+    favoriteArticles: [
       {
         type: mongoose.Schema.Types.ObjectId,
         ref: "Article",
@@ -128,6 +128,7 @@ userSchema.methods.isFollowing = function (id) {
 // @required a user's id
 userSchema.methods.follow = function (id) {
   // only push to it if not existed
+  // note that this method not prevent current user follow ownself
   if (this.followingUsers.indexOf(id) === -1) {
     this.followingUsers.push(id);
   }
@@ -145,13 +146,13 @@ userSchema.methods.unfollow = function (id) {
   return this.save();
 };
 
-// @desc identify whether current user mark article's id as favourite
+// @desc identify whether current user mark article's id as favorite
 // @required an article's id
-userSchema.methods.isFavourite = function (id) {
+userSchema.methods.isFavorite = function (id) {
   const idStr = id.toString();
-  // loop through every id of article in current user's favourite list
-  for (const article of this.favouriteArticles) {
-    // if article's id existed in current user favourite list
+  // loop through every id of article in current user's favorite list
+  for (const article of this.favoriteArticles) {
+    // if article's id existed in current user favorite list
     if (article.toString() === idStr) {
       return true;
     }
@@ -159,36 +160,36 @@ userSchema.methods.isFavourite = function (id) {
   return false;
 };
 
-// @desc add article's id to current user's favourite array
+// @desc add article's id to current user's favorite array
 // @required an article's id
 userSchema.methods.favorite = function (id) {
-  if (this.favouriteArticles.indexOf(id) === -1) {
+  if (this.favoriteArticles.indexOf(id) === -1) {
     // only push to it if not existed
-    this.favouriteArticles.push(id);
+    this.favoriteArticles.push(id);
   }
 
   // NOTE: remember keep article count in sync
   // const article = await Article.findById(id).exec();
   //
-  // article.favouritesCount += 1;
+  // article.favoritesCount += 1;
   //
   // await article.save();
 
   return this.save();
 };
 
-// @desc remove article's id from current user's favourite array
+// @desc remove article's id from current user's favorite array
 // @required an article's id
 userSchema.methods.unfavorite = function (id) {
-  if (this.favouriteArticles.indexOf(id) !== -1) {
+  if (this.favoriteArticles.indexOf(id) !== -1) {
     // only remove if existed
-    this.favouriteArticles.remove(id);
+    this.favoriteArticles.remove(id);
   }
 
   // NOTE: remember keep article count in sync
   // const article = await Article.findById(id).exec();
   //
-  // article.favouritesCount -= 1;
+  // article.favoritesCount -= 1;
   //
   // await article.save();
 

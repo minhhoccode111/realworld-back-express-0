@@ -25,3 +25,13 @@ For more information on how to this works with other frontends/backends, head ov
 - Only one `access_token_secret` is used for all the accounts registration and login. Drawback: data can be forged if this secret is leaked
 - Included array structures, e.g. list of comments in the article model and favorited articles in the user model. Drawback: not good for scalability
 - Usernames are case-sensitive
+
+# Things I find that need to be updated
+
+- Consistency variable name: `favorite` and `favourite`
+- Add check existence of the article when trying to `PUT /api/articles/:slug`
+- Add check for special article's slug named `feed` (make `GET /:slug` conflict with `GET /feed`)
+- Use `Promise.all()` in the `GET /articles/feed` to improve performant
+- Add `.exec()` to the `articleCount`
+- Change `.count()` in `GET /articles/feed` and `GET /articles` to `.countDocuments()` for better
+- Add handle Schema conflict `slug` by changing `await Schema.create()` to `new Schema()` and `.save((err)=>{/* handlerconflict slug */})`
