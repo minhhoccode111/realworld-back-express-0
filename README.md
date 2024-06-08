@@ -2,7 +2,9 @@
 
 > ### Express.js + MongoDB + JavaScript codebase containing real world examples (CRUD, auth, advanced patterns, etc) that adheres to the [RealWorld](https://github.com/gothinkster/realworld) spec and API.
 
-### [Demo](https://demo.realworld.io/)&nbsp;&nbsp;&nbsp;&nbsp;[RealWorld](https://github.com/gothinkster/realworld)
+### [Demo](https://demo.realworld.io/)
+
+### [RealWorld](https://github.com/gothinkster/realworld)
 
 This codebase was created to demonstrate a fully fledged fullstack application built with **Express.js + MongoDB + JavaScript** including CRUD operations, authentication, routing, pagination, and more.
 
@@ -30,13 +32,17 @@ For more information on how to this works with other frontends/backends, head ov
 # Things I find that need to be updated
 
 - Consistency variable name: `favorite` and `favourite`
-- Add check existence of the article when trying to `PUT /api/articles/:slug`
 - Add check for special article's slug named `feed` (make `GET /:slug` conflict with `GET /feed`)
-- Use `Promise.all()` in the `GET /articles/feed` to improve performant
 - Add `.exec()` to the `articleCount`
-- Change `.count()` in `GET /articles/feed` and `GET /articles` to `.countDocuments()` for better
-- Add handle Schema conflict `slug` by changing `await Schema.create()` to `new Schema()` and `.save((err)=>{/* handlerconflict slug */})`
-- Remove not use Tag model
-- Add check for valid MongoDB id with `isValidObjectId` to prevent `findById` db throw if `id` not valid and to return soon if not valid id
-- Add check for comment existence in `DELETE /articles/:slug/comments/:id`
-- Use `Promise.all()` in the `DELETE /articles/:slug/comments/:id` to improve performant
+- Change `.count()` to `.countDocuments()` in
+  - `GET /articles/feed`
+  - `GET /articles`
+- Add handle Schema conflict `slug` by changing `await Schema.create()` to `await new Schema().save((err)=>{/* handle conflict slug */})`
+- Remove not use `Tag` model
+- Add check for valid MongoDB id and return soon with `isValidObjectId` (MongoDB throw if `findById` with invalid `id`)
+- Add `Promise.all()` to improve performant in
+  - `GET /articles/feed`
+  - `DELETE /articles/:slug/comments/:id`
+- Add check existence
+  - article when trying to `PUT /api/articles/:slug`
+  - comment when trying to `DELETE /articles/:slug/comments/:id`
