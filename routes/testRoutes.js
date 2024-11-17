@@ -10,7 +10,7 @@ const asyncHandler = require("express-async-handler");
 // test that db is up, server is up, etc.
 router.get(
   "/",
-  asyncHandler(async (req, res) => {
+  asyncHandler(async (_, res) => {
     // this route can be use to interact with db
     // like print info, clear, populate, etc.
 

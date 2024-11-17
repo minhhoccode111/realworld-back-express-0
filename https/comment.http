@@ -1,19 +1,22 @@
-# addCommentsToArticle,
-POST {{url}}/articles/asd1-0/comments
+# in-place variable syntax
+@id = 665445db1d9d0635c1ddc54e
+@slug = asd1-0
+
+### addCommentsToArticle,
+POST {{url}}/articles/{{slug}}/comments
 Authorization: {{token1}}
 Content-Type: application/json
+
 {
   "comment": {
     "body": "contact"
   }
 }
 
-
-# getCommentsFromArticle,
-GET {{url}}/articles/asd1-0/comments
+### getCommentsFromArticle,
+GET {{url}}/articles/{{slug}}/comments
 Authorization: {{token1}}
 
-
-# deleteComment,
-DELETE {{url}}/articles/asd1-0/comments/665445db1d9d0635c1ddc54e
+### deleteComment,
+DELETE {{url}}/articles/{{slug}}/comments/{{id}}
 Authorization: {{token1}}

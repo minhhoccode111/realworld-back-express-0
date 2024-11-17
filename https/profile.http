@@ -1,11 +1,14 @@
-# get a profile
-GET {{url}}/profiles/asd1
+# in-place variable syntax
+@username = asd1
+
+### get a profile
+GET {{url}}/profiles/{{username}}
 Authorization: {{token0}}
 
-# follow a profile
-POST {{url}}/profiles/asd1/follow
+### follow a profile
+POST {{url}}/profiles/{{username}}/follow
 Authorization: {{token0}}
  
-# unfollow a profile
-DELETE {{url}}/profiles/asd1/follow
+### unfollow a profile
+DELETE {{url}}/profiles/{{username}}/follow
 Authorization: {{token0}}
